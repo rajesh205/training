@@ -267,6 +267,7 @@
                                     <li><a  href="batch/completed"><i class="fa fa-list"></i> <?php echo lang('completed'); ?> <?php echo lang('batches'); ?> </a></li>
                                     <li><a  href="batch/addNewView"><i class="fa fa-plus-circle"></i> <?php echo lang('add_batch'); ?> </a></li>
                                     <li><a  href="batch/batchMaterial"><i class="fa fa-file"></i> <?php echo lang('batch'); ?> <?php echo lang('material'); ?> </a> </a></li>
+                                    <li><a  href="batch/reports"><i class="fa fa-file"></i> Batch Reports </a> </a></li>
                                 </ul>
                             </li>
                         <?php } ?>

@@ -145,12 +145,15 @@
                     <table class="table table-striped table-hover table-bordered" id="">
                         <thead>
                             <tr>
+                                <th>
+                                    Installments
+                                </th>
                                 <th> <?php echo lang('course'); ?> -  <?php echo lang('batch'); ?></th>
                                 <th> <?php echo lang('course_fee'); ?></th>
                                 <th> <?php echo lang('discount'); ?></th>
                                 <th> <?php echo lang('receivable'); ?></th>
                                 <th> <?php echo lang('received'); ?></th>
-                                <th> <?php echo lang('due'); ?></th>
+                                <!-- <th> <?php echo lang('due'); ?></th> -->
                                 <th> <?php echo lang('options'); ?></th>
                             </tr>
                         </thead>
@@ -167,11 +170,22 @@
 
                         </style>
                         <?php
+                        $i= 0;
+                        
                         foreach ($batches as $key1 => $value1) {
-
+                            $i++;
                             $batch1 = $this->batch_model->getBatchById($value1)
                             ?>
                             <tr class="">
+                                <td>
+
+                                        <?php echo ($i == 1 ? "1st" : "2nd")?> Installment
+                                </td>
+                                <td>
+                                    <?php echo $this->course_model->getCourseById($batch1->course)->name; ?> -  <?php
+                                    echo $this->batch_model->getBatchById($batch1->id)->batch_id;
+                                    ?>
+                                </td>
                                 <td>
                                     <?php echo $this->course_model->getCourseById($batch1->course)->name; ?> -  <?php
                                     echo $this->batch_model->getBatchById($batch1->id)->batch_id;
@@ -188,12 +202,12 @@
                                     echo 'sobujbatti';
                                 }
                                 ?>">  <?php echo $settings->currency; ?> <?php echo $amount_received; ?></td>
-                                <td class="<?php
+                                <!-- <td class="<?php
                                 $due = $amount_receivable - $amount_received;
                                 if ($due > 0) {
                                     echo 'lalbatti';
                                 }
-                                ?>">  <?php echo $settings->currency; ?>  <?php echo $due; ?> </td>
+                                ?>">  <?php echo $settings->currency; ?>  <?php echo $due; ?> </td> -->
                                 <td> <button type="button" class="btn btn-info btn-xs btn_width viewPayment" href="#modal1" data-toggle="modal" data-batch_id="<?php echo $batch1->id; ?>" data-student_id="<?php echo $student_details->id; ?>"><i class="fa fa-eye"></i> <?php echo lang('view_payments'); ?></button>   </td>
                             </tr>
                         <?php } ?>

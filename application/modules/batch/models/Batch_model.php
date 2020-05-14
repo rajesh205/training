@@ -293,6 +293,15 @@ class Batch_model extends CI_model {
         return $students->result_array();
     }    
     
-    
+    function insertBatchReport($data) {
+        $this->db->insert('batch_report', $data);
+    }
+
+    function getBatchReport() {
+         $this->db->select('*');
+        $this->db->from('batch_report');
+        $query = $this->db->get();
+        return $query->result();
+    }
 
 }

@@ -16,13 +16,19 @@
 
         <section>
             <div class="panel panel-primary">
+                <select class="form-control company">
+                    <option value="Magistersign">Magistersign</option>
+                    <option value="M Gowri">M Gowri</option>
+                    <option value="N Mangatayaru">N Mangatayaru</option>
+
+                </select>
                 <!--<div class="panel-heading navyblue"> INVOICE</div>-->
                 <div class="panel-body col-md-6 panel-moree" style="font-size: 10px;">
                     <div class="row invoice-list">
 
                         <div class="text-center corporate-id">
                             <h3>
-                                <?php echo $settings->system_vendor ?>
+                                <span class="vendor"><?php echo $settings->system_vendor ?></span>
                             </h3>
                             <h4>
                                 <?php echo $settings->address ?>
@@ -38,7 +44,7 @@
                         <div class="col-lg-4 col-sm-4 list_item">
                             <h4> <?php echo lang('payment_to'); ?> :</h4>
                             <p>
-                                <?php echo $settings->system_vendor; ?> <br>
+                                <span class="vendor"><?php echo $settings->system_vendor; ?></span> <br>
                                 <?php echo $settings->address; ?><br>
                                 Tel:  <?php echo $settings->phone; ?> <br>
                                 <?php echo $settings->email; ?>
@@ -156,6 +162,9 @@
 <script>
                             $(document).ready(function () {
                                 $(".flashmessage").delay(3000).fadeOut(100);
+                                $(".company").change(function(){
+                                    $(".vendor").html($(this).val());
+                                })
                             });
 </script>
 

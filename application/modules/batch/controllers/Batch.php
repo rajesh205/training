@@ -1019,6 +1019,29 @@ class Batch extends MX_Controller {
         echo json_encode($response);
     }
 
+    function reports() {
+
+        $data['settings'] = $this->settings_model->getSettings();
+        $data['nextPayments'] = $this->home_model->getUnpaidStudents();
+        $data['batch_reports'] = $this->batch_model->getBatchReport();
+        $this->load->view('home/dashboard', $data); // just the header file
+        $this->load->view('batchReport', $data);
+        $this->load->view('home/footer'); // just the footer file
+    }
+    function addBatchReport() {
+
+        if($this->input->post('status')) {
+            $batch = $this->batch_model->insertBatchReport($this->input->post());
+            redirect('batch/reports');
+        }
+
+        $data['settings'] = $this->settings_model->getSettings();
+        $data['nextPayments'] = $this->home_model->getUnpaidStudents();
+        $data['batches'] = $this->batch_model->getBatch();
+        $this->load->view('home/dashboard', $data); // just the header file
+        $this->load->view('addBatchReport', $data);
+        $this->load->view('home/footer'); // just the footer file
+    }
 }
 
 /* End of file batch.php */
