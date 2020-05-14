@@ -29,6 +29,7 @@
                         <thead>
                             <tr>
                                 <th> <?php echo lang('batch_id'); ?></th>
+                                <th> Type </th>
                                 <th> <?php echo lang('course'); ?></th>
                                 <th> <?php echo lang('instructor'); ?></th>
                                 <th> <?php echo lang('start_date'); ?></th>
@@ -83,6 +84,15 @@
                         <label for="exampleInputEmail1"> <?php echo lang('batch_id'); ?></label>
                         <input type="text" class="form-control" name="batch_id" id="exampleInputEmail1" value='' placeholder="">
                     </div>
+                    <div class="form-group">
+                                <label for="exampleInputEmail1"> Batch Type</label><br>
+                                <select class="form-control" id='type' name="type" style="width: 100% !important;" required="">
+                                    <option value="0" >Select Type</option>
+                                    <option value="Trainer" >Trainer</option>
+                                    <option value="Support" >Support</option>
+                                </select>
+
+                            </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1"> <?php echo lang('course'); ?></label><br>
                         <select class="form-control" id='selUser1' name="course" style="width: 100% !important;">
@@ -189,7 +199,15 @@
                         <label for="exampleInputEmail1"> <?php echo lang('batch_id'); ?></label>
                         <input type="text" class="form-control" name="batch_id" id="exampleInputEmail1" value='' placeholder="">
                     </div>
+                    <div class="form-group">
+                                <label for="exampleInputEmail1"> Batch Type</label><br>
+                                <select class="form-control" id='type' name="type" style="width: 100% !important;" required="">
+                                    <option value="0" >Select Type</option>
+                                    <option value="Trainer" >Trainer</option>
+                                    <option value="Support" >Support</option>
+                                </select>
 
+                            </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1"> <?php echo lang('course'); ?></label><br>
                         <select class="form-control" id='selUser3' name="course" style="width: 100% !important;">
@@ -303,8 +321,16 @@ if ($date_format == 1) {
                 
                 var option1 = new Option(response.batch.instructorname + '-' + response.batch.instructor, response.batch.instructor, true, true);
                 $('#editBatchForm').find('[name="instructor"]').append(option1).trigger('change');
-                var option2 = new Option(response.employees.name, response.employees.name, true, true);
+                var option2 = new Option(response.employees.name, response.employees.id, true, true);
                 $('#editBatchForm').find('[name="employee"]').append(option2).trigger('change');
+                $("#type > option").each(function() {
+                    if(this.value == response.batch.type) {
+                        $(this).attr("selected","selected")
+                        $(this).val(this.value);
+                    }
+                });
+               
+
 
             });
         });

@@ -185,6 +185,8 @@ class Settings extends MX_Controller {
         $language = $this->input->post('language');
         $buyer = $this->input->post('buyer');
         $p_code = $this->input->post('p_code');
+        $fb_link = $this->input->post('fb_link');
+        $twitter_link = $this->input->post('twitter_link');
 
         if (!empty($email)) {
             $this->load->library('form_validation');
@@ -270,6 +272,8 @@ class Settings extends MX_Controller {
                         'codec_purchase_code' => $p_code,
                         'login_title' => $login_title,
                         'login_logoo' => $img_url,
+                        'fb_link' => $fb_link,
+                        'twitter_link' => $twitter_link,
                     );
                 } else {
                     $data = array();
@@ -285,6 +289,8 @@ class Settings extends MX_Controller {
                         'codec_username' => $buyer,
                         'codec_purchase_code' => $p_code,
                         'login_title' => $login_title,
+                        'fb_link' => $fb_link,
+                        'twitter_link' => $twitter_link
                     );
                 }
                 $this->settings_model->updateSettings($id, $data);

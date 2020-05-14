@@ -32,6 +32,15 @@
                                 ?>' placeholder="">
                             </div>
                             <div class="form-group">
+                                <label for="exampleInputEmail1"> Batch Type</label><br>
+                                <select class="form-control" id='type' name="type" style="width: 100% !important;" required="">
+                                    <option value="0" >Select Type</option>
+                                    <option value="Trainer" >Trainer</option>
+                                    <option value="Support" >Support</option>
+                                </select>
+
+                            </div>
+                            <div class="form-group">
                                 <label for="exampleInputEmail1"> <?php echo lang('employee'); ?></label><br>
                                 <select class="form-control" id='employee' name="employee" style="width: 100% !important;">
                                    

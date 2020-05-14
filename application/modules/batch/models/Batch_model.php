@@ -285,7 +285,7 @@ class Batch_model extends CI_model {
     }
     
     function getStudentsByBatch($batch_id) {
-        $this->db->select("s.name, s.phone");
+        $this->db->select("s.name, s.phone,s.id");
         $this->db->from("student s");
         $this->db->join("student_batch sb", "sb.student = s.id");
         $this->db->where("sb.batch", $batch_id);

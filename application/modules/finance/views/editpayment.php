@@ -20,7 +20,11 @@
                     <div class="">
                         <div class="form-group">
                             <label for="exampleInputEmail1"> Invoce ID</label>
-                            <input type="text" class="form-control" name="invoice_id" id="exampleInputEmail1" value='' placeholder="Invoce ID">
+                            <input type="text"   class="form-control" name="invoice_id" id="exampleInputEmail1" value='<?php
+                                if (!empty($payment->invoice_id)) {
+                                    echo $payment->invoice_id;
+                                }
+                                ?>' placeholder="Invoce ID">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1"> <?php echo lang('select'); ?> <?php echo lang('course'); ?></label>
@@ -40,37 +44,69 @@
 
                         <div class="form-group">
                             <label for="exampleInputEmail1"> <?php echo lang('select'); ?> <?php echo lang('batch'); ?></label>
-                            <select class="form-control select2" name="batch_id" id="abatch"> 
+                            <select class="form-control select2" name="batch_id" id=""> 
                                 <option value="none">select ---</option>
+                                <?php 
+                                    foreach($batches as $batch) {
+
+                                ?>
+                                    <option value="<?php echo $batch->id?>" <?php echo (isset($payment) && $batch->id == $payment->batch ? 'selected':'')?>> <?php echo $batch->batch_id?></option>
+                                <?php
+                                    }
+                                ?>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1"> <?php echo lang('select'); ?> <?php echo lang('student'); ?></label>
-                            <select class="form-control select2" name="student" id="astudent"> 
+                            <select class="form-control " name="student" id=""> 
                                 <option value="none">select ---</option>
+                                <?php 
+                                    foreach($students as $student) {
+
+                                ?>
+                                    <option value="<?php echo $student['id']?>" <?php echo (isset($payment) && $student['id'] == $payment->student ? 'selected':'')?>> <?php echo $student['name']?></option>
+                                <?php
+                                    }
+                                ?>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1"> <?php echo lang('Due'); ?> <?php echo lang('amount'); ?></label>
-                            <input type="text" class="form-control" name="amount" id="exampleInputEmail1" value='' placeholder="<?php echo $settings->currency; ?>">
+                            <input type="text" class="form-control" name="amount" id="exampleInputEmail1" value='<?php
+                                if (!empty($payment->amount)) {
+                                    echo $payment->amount;
+                                }
+                                ?>' placeholder="<?php echo $settings->currency; ?>">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1"> <?php echo lang('discount'); ?></label>
-                            <input type="text" class="form-control" name="discount" id="exampleInputEmail1" value='' placeholder="<?php echo $settings->currency; ?>">
+                            <input type="text" class="form-control" name="discount" id="exampleInputEmail1" value='<?php
+                                if (!empty($payment->discount)) {
+                                    echo $payment->discount;
+                                }
+                                ?>' placeholder="<?php echo $settings->currency; ?>">
                         </div>
                         <div class="form-group">
                                 <label for="exampleInputEmail1"> Fee Payment Date </label>
-                                <input type="text" class="form-control default-date-picker" name="paid_amount_date" id="exampleInputEmail1" placeholder="">
+                                <input type="text" class="form-control default-date-picker" name="paid_amount_date" id="exampleInputEmail1" placeholder="" value="<?php
+                                if (!empty($payment->paid_amount_date)) {
+                                    echo $payment->paid_amount_date;
+                                }
+                                ?>">
                         </div>
                         <div class="form-group">
                                 <label for="exampleInputEmail1"> Next Payment Date </label>
-                                <input type="text" class="form-control default-date-picker" name="next_payment_date" id="exampleInputEmail1" placeholder="">
+                                <input type="text" class="form-control default-date-picker" name="next_payment_date" id="exampleInputEmail1" placeholder="" value="<?php
+                                if (!empty($payment->next_payment_date)) {
+                                    echo $payment->next_payment_date;
+                                }
+                                ?>">
                             </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1"> TDS Apply </label>
                             <select class="form-control ptype" id="tds" name="tds">
-                                <option value="0">0</option>
-                                <option value="10">10</option>
+                                <option value="0" <?php echo (isset($payment) && $payment->tds== 0 ?'selected':'')?>>0</option>
+                                <option value="10" <?php echo (isset($payment) && $payment->tds== 0 ?'selected':'')?>>10</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -111,6 +147,7 @@
                             ?>
                         </div>
                     </div>
+                    <input type="hidden" name="id" value="<?php echo $payment->id?>">
                     <div class="form-group cashsubmit col-md-12">
                         <button type="submit" name="submit2" id="submit1" class="btn btn-info row pull-right"> <?php echo lang('submit'); ?></button>
                     </div>
@@ -167,6 +204,7 @@
                                         var iid = $(this).find(':selected').data('id');
                                         $('#abatch').find('option').remove();
                                         $('#abatch').append($('<option>').text('Select --- '));
+
                                         $.ajax({
                                             url: 'batch/getBatchByCourseIdByJason?id=' + iid,
                                             method: 'GET',

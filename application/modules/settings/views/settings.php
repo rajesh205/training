@@ -62,6 +62,7 @@
                                         }
                                         ?>' placeholder="currency">
                                     </div>
+                                    
                                 </div>
 
                                 <div class="col-md-6">
@@ -121,6 +122,22 @@
                                             echo $settings->phone;
                                         }
                                         ?>' placeholder="codec_purchase_code">
+                                    </div>
+                                    <div class="form-group ">
+                                        <label for="exampleInputEmail1">Facebook Link</label>
+                                        <input type="text" class="form-control" name="fb_link" id="exampleInputEmail1" value='<?php
+                                        if (!empty($settings->fb_link)) {
+                                            echo $settings->fb_link;
+                                        }
+                                        ?>' placeholder="Facebook Link">
+                                    </div>
+                                    <div class="form-group ">
+                                        <label for="exampleInputEmail1">Twitter Link</label>
+                                        <input type="text" class="form-control" name="twitter_link" id="exampleInputEmail1" value='<?php
+                                        if (!empty($settings->twitter_link)) {
+                                            echo $settings->twitter_link;
+                                        }
+                                        ?>' placeholder="Twitter Link">
                                     </div>
                                 </div>
                                 <input type="hidden" name="id" value='<?php

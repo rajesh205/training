@@ -14,6 +14,13 @@
                             </button>
                         </div>
                     </a>
+                    <div class="btn-group pull-right">
+                            
+                            <button class="btn-xs green" onclick="copyText('emails')">
+                                 Copy to Clipboard  
+                            </button>
+                            <span id="emails" style="display: none"></span>
+                        </div>
                 </div>
             </header>
             <style>
@@ -49,6 +56,7 @@
                     <table class="table table-striped table-hover table-bordered" id="editable-sample1">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th> <?php echo lang('image'); ?></th>
                                 <th> <?php echo lang('name'); ?></th>
                                 <th> <?php echo lang('email'); ?></th>
@@ -208,7 +216,13 @@
                                 ?>' placeholder="">
 
                             </div>
+                            <div class="form-group">
 
+
+                                <label for="exampleInputEmail1"> Type of Instructor</label>
+                                <input type="text" class="form-control" name="type" placeholder="Support/Trainer or Trainer,Support">
+
+                            </div>
                     <input type="hidden" name="id" value=''>
 
                     <div class="form-group col-md-12">
@@ -352,6 +366,13 @@
                                 <input type="text" class="form-control" name="holder_name" id="exampleInputEmail1" value='' placeholder="">
 
                             </div>
+                            <div class="form-group">
+
+
+                                <label for="exampleInputEmail1"> Type of Instructor</label>
+                                <input type="text" class="form-control" name="type" placeholder="Support/Trainer or Trainer,Support">
+
+                            </div>
                     <input type="hidden" name="id" value=''>
 
                     <div class="form-group col-md-12">
@@ -402,6 +423,7 @@
                 $('#editInstructorForm').find('[name="ifsc_code"]').val(response.instructor.ifsc_code).end()
                 $('#editInstructorForm').find('[name="holder_name"]').val(response.instructor.holder_name).end()
                 $('#editInstructorForm').find('[name="skill"]').val(response.instructor.skill).end()
+                $('#editInstructorForm').find('[name="type"]').val(response.instructor.type).end()
             });
         });
     });
@@ -485,7 +507,30 @@
     });
 </script>
 <script>
+    function copyText(elementId){        
+        var aux = document.createElement("input");
+
+      // Get the text from the element passed into the input
+      aux.setAttribute("value", document.getElementById(elementId).innerHTML);
+
+      // Append the aux input to the body
+      document.body.appendChild(aux);
+
+      // Highlight the content
+      aux.select();
+
+      // Execute the copy command
+      document.execCommand("copy");
+
+      // Remove the input from the body
+      document.body.removeChild(aux);
+      alert("Copied the data "+document.getElementById(elementId).innerHTML);
+    }
     $(document).ready(function () {
+        $(".table").on("click",".employee_check",function(){
+            var email = $(this).val();
+            $('#emails').append($(this).val()+",");
+        });
         $(".flashmessage").delay(3000).fadeOut(100);
         $(".table").on("click",".bankdetails", function() {
             $.ajax({

@@ -333,10 +333,11 @@ class Student extends MX_Controller {
             $option1 = '<a class="btn btn-info btn-xs btn_width" href="student/details?student_id=' . $case->id . '"><i class="fa fa-eye"> </i>' . lang('details') . '</a>';
             $option2 = '<button type="button" class="btn btn-info btn-xs btn_width editbutton" data-toggle="modal" data-id="' . $case->id . '"><i class="fa fa-edit"></i>' . lang('edit') . '</button>';
             $option3 = '<a class="btn btn-info btn-xs btn_width delete_button" href="student/delete?id=' . $case->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i>' . lang('delete') . '</a>';
-            $option2 = '<button type="button" class="btn btn-info btn-xs btn_width feedback_btn" data-toggle="modal" id="'.$case->id.'" data-id="' . $case->id . '"><i class="fa fa-edit"></i>Feedback</button>';
+            $option4 = '<button type="button" class="btn btn-info btn-xs btn_width feedback_btn" data-toggle="modal" id="'.$case->id.'" data-id="' . $case->id . '"><i class="fa fa-edit"></i>Feedback</button>';
             $imgoption = '<img style="width:95%;"src="' . $case->img_url . '">';
 
             $info[] = array(
+                "<input type='checkbox' name='employee_box' class='employee_check' value='".$case->email."'>",
                 $imgoption,
                 $case->name,
                 $case->email,
@@ -345,7 +346,7 @@ class Student extends MX_Controller {
                 $employee->name,
                 $case->lead_from,
                 $case->bank_details,
-                $option1 . ' ' . $option2 . ' ' . $option3
+                $option1 . ' ' . $option2 . ' ' . $option3. ' ' . $option4
             );
         }
 

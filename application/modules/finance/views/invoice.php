@@ -118,6 +118,7 @@
                                         }
                                         ?></li>
                                 <?php } ?>
+                                <li><strong> TDS   <?php echo lang('amount'); ?>  : </strong><?php echo $settings->currency; ?> <?php echo $payment->tds; ?></li>
                                 <?php if (!empty($payment->vat)) { ?>
                                     <li><strong> <?php echo lang('vat'); ?>  :</strong>   <?php
                                         if (!empty($payment->vat)) {
@@ -126,8 +127,10 @@
                                             echo '0';
                                         }
                                         ?> % = <?php echo $settings->currency . ' ' . $payment->flat_vat; ?></li>
-                                <?php } ?>
-                                <li><strong> <?php echo lang('grand_total'); ?>  : </strong><?php echo $settings->currency; ?> <?php echo $payment->gross_total; ?></li>
+                                <?php } 
+                                $tdsAmount = ($payment->gross_total*$payment->tds)/100;
+                                ?>
+                                <li><strong> <?php echo lang('grand_total'); ?>  : </strong><?php echo $settings->currency; ?> <?php echo $payment->gross_total-$tdsAmount; ?></li>
                             </ul>
                         </div>
                     </div>

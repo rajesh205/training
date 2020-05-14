@@ -90,6 +90,7 @@ class Instructor extends MX_Controller {
         $ifsc_code = $this->input->post('ifsc_code');
         $bank_account = $this->input->post('bank_account');
         $holder_name = $this->input->post('holder_name');
+        $type = $this->input->post('type');
         $this->load->library('form_validation');
         $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
@@ -163,6 +164,7 @@ class Instructor extends MX_Controller {
                     'bank_account'=>$bank_account,
                     'holder_name'=>$holder_name,
                     'skill'=>$skill,
+                    'type'=>$type,
                 );
             } else {
                 //$error = array('error' => $this->upload->display_errors());
@@ -182,6 +184,7 @@ class Instructor extends MX_Controller {
                     'bank_account'=>$bank_account,
                     'holder_name'=>$holder_name,
                     'skill'=>$skill,
+                    'type'=>$type,
                 );
             }
 
@@ -321,11 +324,13 @@ class Instructor extends MX_Controller {
             $option2 = '<button type="button" class="btn btn-info btn-xs btn_width editbutton" data-toggle="modal" data-id="' . $case->id . '"><i class="fa fa-edit"></i>' . lang('edit') . '</button>';
             $option3 = '<a class="btn btn-info btn-xs btn_width delete_button" href="instructor/delete?id=' . $case->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i>' . lang('delete') . '</a>';
             $option4 = '<button type="button" class="btn btn-info btn-xs btn_width bankdetails" data-toggle="modal" data-id="' . $case->id . '"><i class="fa fa-edit"></i>Bank Details</button>';
-            $imgoption = '<img style="width:95%;"src="' . $case->img_url . '">';
+            // $imgoption = '<img style="width:95%;"src="' . $case->img_url . '">';
             
 
             $info[] = array(
-                $imgoption,
+                "<input type='checkbox' name='employee_box' class='employee_check' value='".$case->email."'>",
+                // $imgoption,
+                $case->type,
                 $case->name,
                 $case->email,
                 $case->address,
@@ -407,6 +412,11 @@ class Instructor extends MX_Controller {
                             $instructorData['skill'] = $worksheet->getCellByColumnAndRow(7,$row)->getValue();
                             $instructorData['expected_amount'] = $worksheet->getCellByColumnAndRow(8,$row)->getValue();
                             $instructorData['status'] = $worksheet->getCellByColumnAndRow(9,$row)->getValue();
+                            $instructorData['bank_name'] = $worksheet->getCellByColumnAndRow(10,$row)->getValue();
+                            $instructorData['bank_account'] = $worksheet->getCellByColumnAndRow(11,$row)->getValue();
+                            $instructorData['ifsc_code'] = $worksheet->getCellByColumnAndRow(12,$row)->getValue();
+                            $instructorData['holder_name'] = $worksheet->getCellByColumnAndRow(13,$row)->getValue();
+                            $instructorData['type'] = $worksheet->getCellByColumnAndRow(14,$row)->getValue();
                             $this->instructor_model->insertInstructor($instructorData);
 
                         }

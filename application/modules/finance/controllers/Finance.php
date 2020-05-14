@@ -139,6 +139,7 @@ class Finance extends MX_Controller {
         $amount = $this->input->post('amount');
         $discount = $this->input->post('discount');
         $next_payment_date = $this->input->post('next_payment_date');
+        $paid_amount_date = $this->input->post('paid_amount_date');
         $invoice = $this->input->post('invoice_id');
         $tds = $this->input->post('tds');
         $type = $this->input->post('ptype');
@@ -197,10 +198,10 @@ class Finance extends MX_Controller {
                 'date' => $date,
                 'next_payment_date'=>$next_payment_date,
                 'invoice_id'=>$invoice,
-                'tds'=>$tds
+                'tds'=>$tds,
+                'paid_amount_date'=>$paid_amount_date
             );
             if (empty($id)) {
-// $this->finance_model->insertPayment($data);
                 $batchdetails = $this->batch_model->getBatchById($batch);
                 $getcourse = $this->course_model->getCourseById($batchdetails->course)->name;
 //sms
@@ -218,7 +219,10 @@ class Finance extends MX_Controller {
                     'amount' => $gross_total,
                     'course' => $getcourse,
                     'batch' => $batchdetails->batch_id,
-                    'next_payment_date'=>$next_payment_date
+                    'next_payment_date'=>$next_payment_date,
+                    'paid_amount_date'=>$paid_amount_date,
+                    'invoice_id'=>$invoice,
+                    'tds'=>$tds,
                 );
 
 
@@ -904,6 +908,7 @@ class Finance extends MX_Controller {
                 $options3 = '<a class="btn btn-info btn-xs delete_button" title="' . lang('delete') . '" href="finance/delete?id=' . $payment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a>';
             }
             $options2 = '<a class="btn btn-info btn-xs invoicebutton" title="' . lang('invoice') . '" style="color: #fff;" href="finance/invoice?id=' . $payment->id . '"><i class="fa fa-book"></i> ' . lang('invoice') . '</a>';
+            $options4 = '<a class="btn btn-info btn-xs btn_width editbutton" title="' . lang('invoice') . '" style="color: #fff;" href="finance/editPayment?payment=' . $payment->id . '"><i class="fa fa-book"></i> ' . lang('edit') . '</a>';
             if (empty($options1)) {
                 $options1 = '';
             } 
@@ -922,8 +927,9 @@ class Finance extends MX_Controller {
                 $settings->currency . '' . $payment->gross_total,
                 $settings->currency . '' . ( $payment->tds == '' ? 0 : $payment->tds),
                 $settings->currency . '' . $tds,
+                $payment->paid_amount_date,
                 $payment->next_payment_date,
-                $options2 . ' ' . $options3,
+                $options2 . ' ' . $options3.' ' . $options4,
                     //  $options2
             );
         }
@@ -1030,6 +1036,21 @@ class Finance extends MX_Controller {
         $object_writer->save('php://output');
 
 
+    }
+
+    public function editPayment() {
+        $data = array();
+        $data['payment'] = $this->finance_model->getPaymentById($this->input->get('payment'));
+        $data['courses'] = $this->course_model->getCourse();
+        $data['batches'] = $this->batch_model->getBatchByCourseId($data['payment']->course);
+        $data['students'] = $this->batch_model->getStudentsByBatch($data['payment']->batch);
+
+        $data['settings'] = $this->settings_model->getSettings();
+        $data['gateway'] = $this->finance_model->getGatewayByName($data['settings']->payment_gateway);
+        
+        $this->load->view('home/dashboard', $data); // just the header file
+        $this->load->view('editpayment', $data);
+        $this->load->view('home/footer'); // just the header file
     }
 
 }

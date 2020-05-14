@@ -321,7 +321,7 @@ class Employee extends MX_Controller {
             $imgoption = '<img style="width:95%;"src="' . $case->img_url . '">';
 
             $info[] = array(
-                "<input type='checkbox' name='employee_box' class='employee_check' value='".$case->email."'>",$imgoption,
+                $imgoption,
                 "<a href='#?' id='".$case->id."' class='employee'>".$case->name."</a>",
                 $case->designation,
                 $case->email,

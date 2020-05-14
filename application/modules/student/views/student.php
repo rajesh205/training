@@ -14,6 +14,13 @@
                             </button>
                         </div>
                     </a>  
+                    <div class="btn-group pull-right">
+                            
+                            <button class="btn-xs green" onclick="copyText('emails')">
+                                 Copy to Clipboard  
+                            </button>
+                            <span id="emails" style="display: none"></span>
+                        </div>
                 </div>
             </header>
             <style>
@@ -51,6 +58,7 @@
                     <table class="table table-striped table-hover table-bordered" id="editable-sample1">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th> <?php echo lang('image'); ?></th>
                                 <th> <?php echo lang('name'); ?></th>
                                 <th> <?php echo lang('email'); ?></th>
@@ -347,7 +355,30 @@
 
 
 <script>
+    function copyText(elementId){        
+        var aux = document.createElement("input");
+
+      // Get the text from the element passed into the input
+      aux.setAttribute("value", document.getElementById(elementId).innerHTML);
+
+      // Append the aux input to the body
+      document.body.appendChild(aux);
+
+      // Highlight the content
+      aux.select();
+
+      // Execute the copy command
+      document.execCommand("copy");
+
+      // Remove the input from the body
+      document.body.removeChild(aux);
+      alert("Copied the data "+document.getElementById(elementId).innerHTML);
+    }
     $(document).ready(function () {
+        $(".table").on("click",".employee_check",function(){
+            var email = $(this).val();
+            $('#emails').append($(this).val()+",");
+        });
         $(".flashmessage").delay(3000).fadeOut(100);
         $(".table").on("click", ".feedback_btn", function () {
             $.ajax({

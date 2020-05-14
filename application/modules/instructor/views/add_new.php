@@ -182,6 +182,13 @@
                                 ?>' placeholder="">
 
                             </div>
+                             <div class="form-group">
+
+
+                                <label for="exampleInputEmail1"> Type of Instructor</label>
+                                <input type="text" class="form-control" name="type" placeholder="Support/Trainer or Trainer,Support">
+
+                            </div>
                             <div class="form-group col-md-12">
                                 <button type="submit" name="submit" class="btn btn-info row pull-right"> <?php echo lang('submit'); ?></button>
                             </div>

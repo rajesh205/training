@@ -147,6 +147,7 @@ class Batch extends MX_Controller {
         }
         $feedback = $this->input->post('feedback');
         $employee = $this->input->post('employee');
+        $type = $this->input->post('type');
         $this->load->library('form_validation');
         $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
@@ -186,8 +187,8 @@ class Batch extends MX_Controller {
                 'end_time' => $end_time,
                 'feedback' => $feedback,
                 'employee' => $employee,
+                'type' => $type,
             );
-
             if (empty($id)) {     // Adding New Batch
                 $this->batch_model->insertBatch($data);
                 $set['settings'] = $this->settings_model->getSettings();
@@ -467,6 +468,7 @@ class Batch extends MX_Controller {
             $no_of_student = $this->batch_model->getStudentsNumberByBatchId($case->id);
             $info[] = array(
                 $case->batch_id,
+                $case->type,
                 $case->coursename,
                 $case->instructorname,
                 date($date_format, $case->start_date),

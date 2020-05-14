@@ -70,6 +70,7 @@
                                 <th> <?php echo lang('grand_total'); ?> </th>
                                 <th> TDS </th>
                                 <th> Final Amount </th>
+                                <th> Fee Paid On </th>
                                 <th> Next Payment Date </th>
                                 <th class="option_th"> <?php echo lang('options'); ?> </th>
                             </tr>
