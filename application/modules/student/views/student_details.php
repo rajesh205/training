@@ -146,15 +146,37 @@
                         <thead>
                             <tr>
                                 <th>
-                                    Installments
+                                    Invoice
                                 </th>
-                                <th> <?php echo lang('course'); ?> -  <?php echo lang('batch'); ?></th>
-                                <th> <?php echo lang('course_fee'); ?></th>
-                                <th> <?php echo lang('discount'); ?></th>
-                                <th> <?php echo lang('receivable'); ?></th>
-                                <th> <?php echo lang('received'); ?></th>
-                                <!-- <th> <?php echo lang('due'); ?></th> -->
-                                <th> <?php echo lang('options'); ?></th>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    Total Amount
+                                </th>
+                                <th>
+                                    Discount
+                                </th>
+                                
+                                <th>
+                                    TDS
+                                </th>
+                                <th>
+                                    Grand Total
+                                </th>
+                                <th>
+                                    1st Installment
+                                </th>
+                                <th>
+                                    Amount
+                                </th>
+                                <th>
+                                    Next Installment
+                                </th>
+                                <th>
+                                    Amount
+                                </th>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -174,43 +196,73 @@
                         
                         foreach ($batches as $key1 => $value1) {
                             $i++;
-                            $batch1 = $this->batch_model->getBatchById($value1)
-                            ?>
-                            <tr class="">
-                                <td>
-
-                                        <?php echo ($i == 1 ? "1st" : "2nd")?> Installment
+                            $batch1 = $this->batch_model->getBatchById($value1);
+                            // $batchByStudent = 
+                            $payment_details = $this->finance_model->getPaymentByBatchIdByStudentId($value1,$student_details->id);
+                              // echo "<pre>";print_r($value1);
+                            $courseData = $this->batch_model->getCourseByBatch($batch1->batch_id); 
+                        ?>
+                            <tr>
+                                <td colspan="5">
+                                    <strong>Batch : <?php echo $batch1->batch_id?></strong>
                                 </td>
-                                <td>
-                                    <?php echo $this->course_model->getCourseById($batch1->course)->name; ?> -  <?php
-                                    echo $this->batch_model->getBatchById($batch1->id)->batch_id;
-                                    ?>
+                                <td colspan="5">
+                                    <strong>Course : <?php echo $courseData[0]['name']?></strong>
                                 </td>
-                                <td>
-                                    <?php echo $this->course_model->getCourseById($batch1->course)->name; ?> -  <?php
-                                    echo $this->batch_model->getBatchById($batch1->id)->batch_id;
-                                    ?>
-                                </td>
-                                <td><?php echo $settings->currency; ?> <?php echo $course_fee = $batch1->course_fee; ?></td>
-                                <td class="center"> <?php echo $settings->currency; ?> <?php echo $discount = $this->finance_model->getDiscountByBatchIdByStudentId($batch1->id, $student_details->id) ?></td>
-                                <td> <?php echo $settings->currency; ?> <?php echo $amount_receivable = $course_fee - $discount; ?></td>
-
-
-                                <td class="<?php
-                                $amount_received = $this->finance_model->getReceivedAmountByBatchIdByStudentId($batch1->id, $student_details->id);
-                                if ($amount_received >= $amount_receivable) {
-                                    echo 'sobujbatti';
-                                }
-                                ?>">  <?php echo $settings->currency; ?> <?php echo $amount_received; ?></td>
-                                <!-- <td class="<?php
-                                $due = $amount_receivable - $amount_received;
-                                if ($due > 0) {
-                                    echo 'lalbatti';
-                                }
-                                ?>">  <?php echo $settings->currency; ?>  <?php echo $due; ?> </td> -->
-                                <td> <button type="button" class="btn btn-info btn-xs btn_width viewPayment" href="#modal1" data-toggle="modal" data-batch_id="<?php echo $batch1->id; ?>" data-student_id="<?php echo $student_details->id; ?>"><i class="fa fa-eye"></i> <?php echo lang('view_payments'); ?></button>   </td>
                             </tr>
-                        <?php } ?>
+                            <tr>
+                                <td>
+                                    <?php echo $payment_details[0]->invoice_id?>
+                                </td>
+                                <td>
+                                    <?php echo date("d M, Y",$payment_details[0]->date)?>
+                                </td>
+                                <td>
+                                    $ <?php echo $batch1->course_fee?>
+                                </td>
+                                <td>
+                                    $ <?php echo ($payment_details[0]->discount == ''?0:$payment_details[0]->discount)?>
+                                </td>
+                                <td>
+                                    <?php echo $payment_details[0]->tds?> %
+                                </td>
+                                <td>
+                                    <?php 
+                                        $totalAmount = ($batch1->course_fee*$payment_details[0]->discount)/100;
+                                       $finalAmount =  $batch1->course_fee - $totalAmount;
+                                        $totalAmount = ($finalAmount*$payment_details[0]->tds)/100;
+                                        $totalAmounttobePaid = $finalAmount - $totalAmount;
+                                        echo "$ ".$totalAmounttobePaid."/-";
+                                    ?>
+                                </td>
+                                <td>
+                                     <?php echo date("d M, Y",strtotime($payment_details[0]->paid_amount_date))?>
+                                    
+                                </td>
+                                <td>
+                                    Rs.<?php 
+                                        
+                                        echo $payment_details[0]->gross_total;
+                                    ?>/-
+                                </td>
+                                <td>
+                                    <?php 
+                                        
+                                        echo date("d M, Y",strtotime($payment_details[0]->next_payment_date));
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php 
+                                        
+                                        echo $payment_details[0]->second_payment;
+                                    ?>
+                                </td>
+                                
+
+                            </tr>           
+                        <?php 
+                        } 
+                        ?>
 
 
                         </tbody>

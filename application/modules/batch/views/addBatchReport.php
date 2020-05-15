@@ -26,7 +26,7 @@
                                 <?php
                                     foreach($batches as $batch){
                                 ?>
-                                    <option value="<?php echo $batch->id?>"><?php echo $batch->batch_id?></option>
+                                    <option value="<?php echo $batch->batch_id?>"><?php echo $batch->batch_id?></option>
                                 <?php
                                     }
                                 ?>
@@ -42,13 +42,29 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1"> Feedback </label>
-                                <textarea class="form-control" name="feedaback">
+                                <textarea class="form-control" name="feedback">
                                     
                                 </textarea>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1"> <?php echo lang('date'); ?></label>
-                                <input type="text" class="form-control default-date-picker" name="date" id="default-date-picker" value='' placeholder="">
+                                <input type="text" class="form-control default-date-picker" name="date" id="default-date-picker" value='<?php echo date("m/d/yy")?>' placeholder="">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1"> <?php echo lang('start_time'); ?></label>
+                                <input type="text" class="form-control timepicker1" name="start_time" id="timepicker1" value='<?php
+                                if (!empty($batch->start_time)) {
+                                    echo $batch->start_time;
+                                }
+                                ?>' placeholder="">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1"> <?php echo lang('end_time'); ?></label>
+                                <input type="text" class="form-control timepicker1" name="end_time" id="exampleInputEmail1" value='<?php
+                                if (!empty($batch->end_time)) {
+                                    echo $batch->end_time;
+                                }
+                                ?>' placeholder="">
                             </div>
                             <div class="form-group col-md-12">
                                 <button type="submit" class="btn btn-info row pull-right"> <?php echo lang('submit'); ?></button>

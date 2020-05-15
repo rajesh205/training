@@ -1020,10 +1020,16 @@ class Batch extends MX_Controller {
     }
 
     function reports() {
+        $from = $to = '';
+
+        if($this->input->post('start_date')) {
+            $from = $this->input->post('start_date');
+            $to = $this->input->post('end_date');
+        }
 
         $data['settings'] = $this->settings_model->getSettings();
         $data['nextPayments'] = $this->home_model->getUnpaidStudents();
-        $data['batch_reports'] = $this->batch_model->getBatchReport();
+        $data['batch_reports'] = $this->batch_model->getBatchReport($from,$to);
         $this->load->view('home/dashboard', $data); // just the header file
         $this->load->view('batchReport', $data);
         $this->load->view('home/footer'); // just the footer file

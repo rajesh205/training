@@ -294,14 +294,26 @@ class Batch_model extends CI_model {
     }    
     
     function insertBatchReport($data) {
-        $this->db->insert('batch_report', $data);
+        $this->db->insert('batch_reports', $data);
     }
 
-    function getBatchReport() {
+    function getBatchReport($from='', $to='') {
          $this->db->select('*');
-        $this->db->from('batch_report');
+        $this->db->from('batch_reports');
+        if(!empty($from) && !empty($to)) {
+            $this->db->where("date between '".$from."' and '".$to."'");
+        }
         $query = $this->db->get();
         return $query->result();
+    }
+
+    function getCourseByBatch($batch_id) {
+        $this->db->select("c.name,c.id,b.course");
+        $this->db->from("course c");
+       $this->db->join('batch b',"b.course=c.id");
+       $this->db->where("b.batch_id",$batch_id);
+       $result = $this->db->get();
+        return $result->result_array();
     }
 
 }

@@ -56,6 +56,7 @@ class Finance_model extends CI_model {
     function getPaymentByBatchIdByStudentId($batch_id, $student_id) {
         $this->db->where('batch', $batch_id);
         $this->db->where('student', $student_id);
+
         $query = $this->db->get('payment')->result();
         return $query;
     }
